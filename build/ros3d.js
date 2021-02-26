@@ -56815,6 +56815,8 @@ class OrbitControls extends THREE$1.EventDispatcher {
     var that = this;
     options = options || {};
     var scene = options.scene;
+    // enable by default
+    this.enabled = options.enabled || true;
     this.camera = options.camera;
     this.center = new THREE$1.Vector3();
     this.userZoom = true;
@@ -56878,6 +56880,9 @@ class OrbitControls extends THREE$1.EventDispatcher {
      * @param event3D - the 3D event to handle
      */
     function onMouseDown(event3D) {
+      if (that.enabled === false) {
+        return;
+      }
       var event = event3D.domEvent;
       event.preventDefault();
 
@@ -56914,6 +56919,9 @@ class OrbitControls extends THREE$1.EventDispatcher {
      * @param event3D - the 3D event to handle
      */
     function onMouseMove(event3D) {
+      if (that.enabled === false) {
+        return;
+      }
       var event = event3D.domEvent;
       if (state === STATE.ROTATE) {
 
@@ -56990,6 +56998,9 @@ class OrbitControls extends THREE$1.EventDispatcher {
      * @param event3D - the 3D event to handle
      */
     function onMouseUp(event3D) {
+      if (that.enabled === false) {
+        return;
+      }
       if (!that.userRotate) {
         return;
       }
@@ -57003,6 +57014,9 @@ class OrbitControls extends THREE$1.EventDispatcher {
      * @param event3D - the 3D event to handle
      */
     function onMouseWheel(event3D) {
+      if (that.enabled === false) {
+        return;
+      }
       if (!that.userZoom) {
         return;
       }
@@ -57030,6 +57044,9 @@ class OrbitControls extends THREE$1.EventDispatcher {
      * @param event3D - the 3D event to handle
      */
     function onTouchDown(event3D) {
+      if (that.enabled === false) {
+        return;
+      }
       var event = event3D.domEvent;
       switch (event.touches.length) {
         case 1:
@@ -57068,6 +57085,9 @@ class OrbitControls extends THREE$1.EventDispatcher {
      * @param event3D - the 3D event to handle
      */
     function onTouchMove(event3D) {
+      if (that.enabled === false) {
+        return;
+      }
       var event = event3D.domEvent;
       if (state === STATE.ROTATE) {
 
@@ -57132,6 +57152,9 @@ class OrbitControls extends THREE$1.EventDispatcher {
     }
 
     function onTouchEnd(event3D) {
+      if (that.enabled === false) {
+        return;
+      }
       var event = event3D.domEvent;
       if (event.touches.length === 1 &&
           state !== STATE.ROTATE) {
@@ -57252,6 +57275,9 @@ class OrbitControls extends THREE$1.EventDispatcher {
    * Update the camera to the current settings.
    */
   update() {
+    if (this.enabled === false) {
+      return;
+    }
     // x->y, y->z, z->x
     var position = this.camera.position;
     var offset = position.clone().sub(this.center);
