@@ -26,6 +26,8 @@ ROS3D.OrbitControls = function(options) {
   var that = this;
   options = options || {};
   var scene = options.scene;
+  // enable by default
+  this.enabled = options.enabled || true;
   this.camera = options.camera;
   this.center = new THREE.Vector3();
   this.userZoom = true;
@@ -89,6 +91,7 @@ ROS3D.OrbitControls = function(options) {
    * @param event3D - the 3D event to handle
    */
   function onMouseDown(event3D) {
+    if ( that.enabled === false ) return;
     var event = event3D.domEvent;
     event.preventDefault();
 
@@ -125,6 +128,7 @@ ROS3D.OrbitControls = function(options) {
    * @param event3D - the 3D event to handle
    */
   function onMouseMove(event3D) {
+    if ( that.enabled === false ) return;
     var event = event3D.domEvent;
     if (state === STATE.ROTATE) {
 
@@ -201,6 +205,7 @@ ROS3D.OrbitControls = function(options) {
    * @param event3D - the 3D event to handle
    */
   function onMouseUp(event3D) {
+    if ( that.enabled === false ) return;
     if (!that.userRotate) {
       return;
     }
@@ -214,6 +219,7 @@ ROS3D.OrbitControls = function(options) {
    * @param event3D - the 3D event to handle
    */
   function onMouseWheel(event3D) {
+    if ( that.enabled === false ) return;
     if (!that.userZoom) {
       return;
     }
@@ -241,6 +247,7 @@ ROS3D.OrbitControls = function(options) {
    * @param event3D - the 3D event to handle
    */
   function onTouchDown(event3D) {
+    if ( that.enabled === false ) return;
     var event = event3D.domEvent;
     switch (event.touches.length) {
       case 1:
@@ -279,6 +286,7 @@ ROS3D.OrbitControls = function(options) {
    * @param event3D - the 3D event to handle
    */
   function onTouchMove(event3D) {
+    if ( that.enabled === false ) return;
     var event = event3D.domEvent;
     if (state === STATE.ROTATE) {
 
@@ -343,6 +351,7 @@ ROS3D.OrbitControls = function(options) {
   }
 
   function onTouchEnd(event3D) {
+    if ( that.enabled === false ) return;
     var event = event3D.domEvent;
     if (event.touches.length === 1 &&
         state !== STATE.ROTATE) {
@@ -463,6 +472,7 @@ ROS3D.OrbitControls.prototype.zoomOut = function(zoomScale) {
  * Update the camera to the current settings.
  */
 ROS3D.OrbitControls.prototype.update = function() {
+  if ( that.enabled === false ) return;
   // x->y, y->z, z->x
   var position = this.camera.position;
   var offset = position.clone().sub(this.center);
